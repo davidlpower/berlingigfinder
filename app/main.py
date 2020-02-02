@@ -1,11 +1,7 @@
-import requests as req
-from bs4 import BeautifulSoup
+from related_artists import RelatedArtists
 
-urls = "https://www.music-map.com"
-artist = "/olafur+arnalds.html"
+primary = "Olafur Arnalds"
+artists = RelatedArtists()
+related = artists.get_related_artists(primary)[1:6]
 
-resp = req.request(method='GET', url=f"{urls}{artist}")
-soup = BeautifulSoup(resp.text, 'html.parser')
-
-for link in soup.find_all("a", class_="S"):
-    print(f"Artist: {link.get_text()}")
+print(f"You said you liked '{primary}', maybe you would also like {', '.join([str(elm) for elm in related])}.")
