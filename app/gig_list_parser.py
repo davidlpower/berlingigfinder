@@ -9,13 +9,13 @@ class GigListParser():
         soup = BeautifulSoup(resp.text, 'html.parser')
         gigs = []
         
-        for gig_tr in soup.find_all("table tr"):
-            gig_tds = gig_tr.find_all('td')
+        for gig_tr in soup.select(".entry-content tr"):
+            gig_tds = gig_tr.select('td')
             gigs.append({
                 'date': gig_tds[0].get_text(),
                 'status': gig_tds[1].get_text(),
                 'artist': gig_tds[2].get_text(),
                 'venue': gig_tds[3].get_text(),
-             })
+            })
         
         return gigs
