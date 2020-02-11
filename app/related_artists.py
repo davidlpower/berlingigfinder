@@ -1,4 +1,4 @@
-from url_generator import UrlGenerator
+from app.related_artists import UrlGenerator
 
 from bs4 import BeautifulSoup
 import requests as req

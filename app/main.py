@@ -1,4 +1,4 @@
-from related_artists import RelatedArtists
+from app.related_artists import RelatedArtists
 
 primary = "Olafur Arnalds"
 artists = RelatedArtists()
