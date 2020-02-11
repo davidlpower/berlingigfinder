@@ -1,17 +1,27 @@
+import json
 from related_artists import RelatedArtists
 from gig_list_parser import GigListParser
 
+
 artists = RelatedArtists()
+
+# get all gigs in Berlin
 giglist = GigListParser().get_gig_list()
 
-fav_artists = ["Jon Hopkins", "Olafur Arnalds", "Keaton Henson", "Joy Division", "DIIV", "Nosaj Thing", "Set Fire To Flames", "Sigur Ros", "The Cure", "Four Tet", "Nils Frahm", "Joni Mitchell"]
+# Load artists from json file
+fav_artists = []
+with open('./favourite_artists.json') as json_file:
+    fav_artists = json.load(json_file)["artists"]
 
+# get related artists and display gigs
 for artist in fav_artists:
     all_artists = artists.get_related_artists(artist)[0:11]
-    print('- - - - - - - - - - - - - - - \n')
-    print(f"Primary Artist: {all_artists[0]} \n")
-    for possible in all_artists:
-        for gig in giglist:
-            if possible in gig['artist']:
-                print(f" - '{gig['artist']}', is playing in '{gig['venue']}' on the '{gig['date']}'. \n")
-    print('- - - - - - - - - - - - - - - \n')
+    print("\n" + f"Favourite Artist: {artist} \n")
+    if all_artists:
+        for possible in all_artists:
+            for gig in giglist:
+                if possible in gig['artist']:
+                    print(f" - '{gig['artist']}', is playing in '{gig['venue']}' on the '{gig['date']}'. \n")
+    else:
+        print('- No gigs found for this artists.')
+    print('- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
