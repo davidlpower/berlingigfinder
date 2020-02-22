@@ -9,6 +9,9 @@ pylint = "*"
 [packages]
 requests = "*"
 beautifulsoup4 = "*"
+pylint = "*"
+django = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.7"
