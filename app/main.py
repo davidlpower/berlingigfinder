@@ -4,9 +4,10 @@ from gig_list_parser import GigListParser
 
 
 artists = RelatedArtists()
+gigListParser = GigListParser()
 
 # get all gigs in Berlin
-giglist = GigListParser().get_gig_list()
+giglist = gigListParser.get_gig_list()
 
 # Load artists from json file
 fav_artists = []
