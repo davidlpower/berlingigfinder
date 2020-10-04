@@ -5,7 +5,7 @@ Based on your taste, Find gigs in Berlin for artists you know you already like a
 - run `pipenv install` and enter the shell `pipenv shell`
 - Make a copy of example_favourite_artists.json and name it 'favourite_artists.json'
 - Add your own favourite artists
-- run the code `python main.py`
+- run the code `python app/main.py`
 
 # Example Output
 
