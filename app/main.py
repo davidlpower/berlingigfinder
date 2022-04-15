@@ -16,13 +16,16 @@ with open('./favourite_artists.json') as json_file:
 
 # get related artists and display gigs
 for artist in fav_artists:
-    all_artists = artists.get_related_artists(artist)[0:11]
+    all_artists = artists.get_related_artists(artist)[0:40]
     print("\n" + f"Favourite Artist: {artist} \n")
     if all_artists:
         for possible in all_artists:
             for gig in giglist:
                 if possible in gig['artist']:
-                    print(f" - '{gig['artist']}', is playing in '{gig['venue']}' on the '{gig['date']}'. \n")
+                    status = gig['status']
+                    status = '\nstill on' if gig['status'] == '' else gig['status']
+                    print(f" - '{gig['artist']}'playing in '{gig['venue']}' on the '{gig['date']}' \nStatus of gig: {status}")
+                    print(f"Recommendation based off artist {possible}")
     else:
-        print('- No gigs found for this artists.')
+        print('- Artist not found')
     print('- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n')
