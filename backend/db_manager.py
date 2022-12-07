@@ -22,11 +22,12 @@ class DBManager:
 
         self.cursor.execute('DROP TABLE IF EXISTS artists')
         self.cursor.execute('CREATE TABLE artists (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))')
-        self.cursor.executemany('INSERT INTO artists (name) VALUES (%s);', [(i) for i in fav_artists])
+        for artist in fav_artists:
+            self.cursor.execute("INSERT INTO artists (name) VALUES ('{0}');".format(artist))
         self.connection.commit()
     
     def get_all_favourite_artists(self):
-        self.cursor.execute('SELECT name FROM artits')
+        self.cursor.execute('SELECT name FROM artists')
         rec = []
         for c in self.cursor:
             rec.append(c[0])
