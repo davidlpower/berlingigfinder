@@ -21,18 +21,19 @@ if not giglist:
 
 @server.route('/')
 
-def displayArtists():
+def displayGigs():
     global conn
     fav_artists = conn.get_all_favourite_artists()
     
-
+    response = ""
     if giglist:
-        # get related artists and display gigs
+
         for artist in fav_artists:
+            # find all related artists
             related_artists = artists.get_related_artists(artist)[0:40]
             response += f"<h2>Because you like {artist}</h2>"
             response += "<ul>" 
-            
+
             match_found = False
             if related_artists:
                 for possible_match in related_artists:
@@ -41,12 +42,13 @@ def displayArtists():
                             match_found = True
                             status = 'still on' if gig['status'] == '' else gig['status']
                             response += f"<li><b>{gig['artist']}</b> is playing in <b>{gig['venue']}</b> on the <b>{gig['date']}</b> - Status: <b>{status}</b> <code title='Recommendation based off artist {possible_match}'>&#9432;</code></li>"
-            elif not match_found:
-                response += '<li><i>There are no gigs in Berlin by artists similar to {artist}.</i></li>'
+                if not match_found:
+                    response += f'<li><i>There are no gigs in Berlin by artists similar to {artist}.</i></li></ul></br>'
+                else:
+                    response += '</ul></br>'
             else:
-                response += '<li><i>There are no gigs in Berlin by artists similar to {artist}.</i></li>'
+                response += f'<li><i>There are no gigs in Berlin by artists similar to {artist}.</i></li></ul></br>'
 
-            response += '</ul></br>'
     else:
         response = '<h1>No Gigs Found In Berlin!</h1>'
 
