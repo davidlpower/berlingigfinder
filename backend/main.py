@@ -22,7 +22,7 @@ fav_artists = []
 
 def displayArtists():
     global conn
-    fav_artists = conn.query_titles()
+    fav_artists = conn.get_all_favourite_artists()
 
     response = ''
     # get related artists and display gigs

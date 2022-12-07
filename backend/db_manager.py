@@ -21,7 +21,7 @@ class DBManager:
 
         self.cursor.execute('DROP TABLE IF EXISTS artists')
         self.cursor.execute('CREATE TABLE artists (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))')
-        self.cursor.executemany('INSERT INTO artists (id, title) VALUES (%s, %s);', [(i, '%d') for i in fav_artists])
+        self.cursor.executemany('INSERT INTO artists (id, name) VALUES (%s, %s);', [(i, '%d') for i in fav_artists])
         self.connection.commit()
     
     def get_all_favourite_artists(self):
