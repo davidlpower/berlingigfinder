@@ -1,4 +1,5 @@
 .vscode
 .pyc
-favourite_artists.json
+backend/favourite_artists.json
+db/password.txt
 */__pycache__/*

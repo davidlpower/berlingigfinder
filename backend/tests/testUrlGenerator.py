@@ -1,5 +1,5 @@
 import unittest
-from app.url_generator import UrlGenerator
+from url_generator import UrlGenerator
 
 
 class TestUrlGenerator(unittest.TestCase):
@@ -27,3 +27,4 @@ class TestUrlGenerator(unittest.TestCase):
 
         # Assert
         self.assertIn(expected_name, observed_name)
+        

@@ -10,6 +10,8 @@ pylint = "*"
 requests = "*"
 beautifulsoup4 = "*"
 pylint = "*"
+Flask = "2.0.1"
+mysql-connector = "2.2.9"
 
 [requires]
-python_version = "3.7"
+python_version = "3.10.8"
