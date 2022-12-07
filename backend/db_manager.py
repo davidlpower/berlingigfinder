@@ -16,12 +16,13 @@ class DBManager:
         self.cursor = self.connection.cursor()
     
     def populate_db(self):
+        fav_artists = None
         with open('./favourite_artists.json') as json_file:
             fav_artists = json.load(json_file)["artists"]
 
         self.cursor.execute('DROP TABLE IF EXISTS artists')
         self.cursor.execute('CREATE TABLE artists (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))')
-        self.cursor.executemany('INSERT INTO artists (id, name) VALUES (%s, %s);', [(i, '%d') for i in fav_artists])
+        self.cursor.executemany('INSERT INTO artists (name) VALUES (%s);', [(i) for i in fav_artists])
         self.connection.commit()
     
     def get_all_favourite_artists(self):
