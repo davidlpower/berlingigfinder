@@ -1,4 +1,6 @@
+import json
 import mysql.connector
+
 
 class DBManager:
     def __init__(self, database='example', host="db", user="root", password_file=None):
@@ -14,13 +16,16 @@ class DBManager:
         self.cursor = self.connection.cursor()
     
     def populate_db(self):
-        self.cursor.execute('DROP TABLE IF EXISTS blog')
-        self.cursor.execute('CREATE TABLE blog (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255))')
-        self.cursor.executemany('INSERT INTO blog (id, title) VALUES (%s, %s);', [(i, 'Blog post #%d'% i) for i in range (1,5)])
+        with open('./favourite_artists.json') as json_file:
+            fav_artists = json.load(json_file)["artists"]
+
+        self.cursor.execute('DROP TABLE IF EXISTS artists')
+        self.cursor.execute('CREATE TABLE artists (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))')
+        self.cursor.executemany('INSERT INTO artists (id, title) VALUES (%s, %s);', [(i, '%d') for i in fav_artists])
         self.connection.commit()
     
-    def query_titles(self):
-        self.cursor.execute('SELECT title FROM blog')
+    def get_all_favourite_artists(self):
+        self.cursor.execute('SELECT name FROM artits')
         rec = []
         for c in self.cursor:
             rec.append(c[0])

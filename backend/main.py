@@ -1,6 +1,3 @@
-import os
-import json
-
 from flask import Flask
 from db_manager import DBManager
 from related_artists import RelatedArtists
@@ -8,6 +5,9 @@ from gig_list_parser import GigListParser
 
 server = Flask(__name__)
 conn = None
+if not conn:
+    conn = DBManager(password_file='/run/secrets/db-password')
+    conn.populate_db()
 
 artists = RelatedArtists()
 gigListParser = GigListParser()
@@ -20,15 +20,9 @@ fav_artists = []
 
 @server.route('/')
 
-def listBlog():
-    with open('./favourite_artists.json') as json_file:
-        fav_artists = json.load(json_file)["artists"]
-
+def displayArtists():
     global conn
-    if not conn:
-        conn = DBManager(password_file='/run/secrets/db-password')
-        conn.populate_db()
-    rec = conn.query_titles()
+    fav_artists = conn.query_titles()
 
     response = ''
     # get related artists and display gigs
