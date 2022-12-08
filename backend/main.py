@@ -3,8 +3,6 @@ from flask import jsonify
 from db_manager import DBManager
 from related_artists import RelatedArtists
 from gig_list_parser import GigListParser
-from collections import defaultdict
-import json
 
 server = Flask(__name__)
 
