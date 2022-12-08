@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Route, } from 'react-router-dom';
 import './index.css';
 
 import Root from './routes/root';
@@ -19,7 +16,7 @@ const router = createBrowserRouter([
       {
         path: 'gigs/:gigId',
         element: <Gig />,
-     },
+      },
     ],
   },
 ]);

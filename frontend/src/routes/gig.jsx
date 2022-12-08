@@ -5,7 +5,6 @@ export default function Gig() {
         first: "Your",
         last: "Name",
         avatar: "https://placekitten.com/g/200/200",
-        twitter: "your_handle",
         notes: "Some notes",
         favorite: true,
     };
@@ -30,17 +29,6 @@ export default function Gig() {
                     )}{" "}
                     <Favorite gig={gig} />
                 </h1>
-
-                {gig.twitter && (
-                    <p>
-                        <a
-                            target="_blank"
-                            href={`https://twitter.com/${gig.twitter}`}
-                        >
-                            {gig.twitter}
-                        </a>
-                    </p>
-                )}
 
                 {gig.notes && <p>{gig.notes}</p>}
 
