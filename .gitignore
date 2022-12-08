@@ -3,3 +3,5 @@
 backend/favourite_artists.json
 db/password.txt
 __pycache__
+node_modules
+build

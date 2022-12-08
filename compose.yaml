@@ -35,6 +35,7 @@ services:
       - 8000:8000
     networks:
       - backnet
+      - proxynet
       - frontnet
     depends_on:
       db:
@@ -44,10 +45,26 @@ services:
     build: proxy
     restart: always
     ports:
-      - 80:80
+      - 8080:8080
     depends_on: 
       - backend
     networks:
+      - proxynet
+      - frontnet
+
+  frontend:
+    build:
+      context: frontend
+      target: dev-envs
+    container_name: frontend
+    ports:
+      - "80:3000"
+      - "3000:3000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - backnet
+      - proxynet
       - frontnet
 
 volumes:
@@ -59,4 +76,5 @@ secrets:
 
 networks:
   backnet:
+  proxynet:
   frontnet:
