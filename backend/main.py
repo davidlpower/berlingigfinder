@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import jsonify
 from db_manager import DBManager
 from related_artists import RelatedArtists
 from gig_list_parser import GigListParser
@@ -19,12 +20,12 @@ giglist = None
 if not giglist:
     giglist = gigListParser.get_gig_list()
 
-@server.route('/')
 
+@server.route('/')
 def displayGigs():
     global conn
     fav_artists = conn.get_all_favourite_artists()
-    
+
     response = ""
     if giglist:
 
@@ -32,7 +33,7 @@ def displayGigs():
             # find all related artists
             related_artists = artists.get_related_artists(artist)[0:40]
             response += f"<h2>Because you like {artist}</h2>"
-            response += "<ul>" 
+            response += "<ul>"
 
             match_found = False
             if related_artists:
@@ -53,6 +54,24 @@ def displayGigs():
         response = '<h1>No Gigs Found In Berlin!</h1>'
 
     return response
+
+
+@server.route('/artists')
+def artists():
+    artist = [{
+        'first_name': 'David',
+        'last_name': 'Power',
+        'age': 99,
+        'favorite_colors': ['blue', 'green'],
+        'active': True
+    }, {
+        'first_name': 's',
+        'last_name': 'Doe',
+        'age': 25,
+        'favorite_colors': ['blue', 'green'],
+        'active': True
+    }]
+    return jsonify(artist)
 
 
 if __name__ == '__main__':
