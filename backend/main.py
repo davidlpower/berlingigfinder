@@ -3,10 +3,11 @@ from flask import jsonify
 from db_manager import DBManager
 from related_artists import RelatedArtists
 from gig_list_parser import GigListParser
+from collections import defaultdict
 
 server = Flask(__name__)
 
-artists = RelatedArtists()
+relatedArtists = RelatedArtists()
 gigListParser = GigListParser()
 
 # Set up database
@@ -28,10 +29,9 @@ def displayGigs():
 
     response = ""
     if giglist:
-
         for artist in fav_artists:
             # find all related artists
-            related_artists = artists.get_related_artists(artist)[0:40]
+            related_artists = relatedArtists.get_related_artists(artist)[0:40]
             response += f"<h2>Because you like {artist}</h2>"
             response += "<ul>"
 
@@ -58,20 +58,28 @@ def displayGigs():
 
 @server.route('/artists')
 def artists():
-    artist = [{
-        'first_name': 'David',
-        'last_name': 'Power',
-        'age': 99,
-        'favorite_colors': ['blue', 'green'],
-        'active': True
-    }, {
-        'first_name': 's',
-        'last_name': 'Doe',
-        'age': 25,
-        'favorite_colors': ['blue', 'green'],
-        'active': True
-    }]
-    return jsonify(artist)
+    global conn
+    fav_artists = conn.get_all_favourite_artists()
+
+    response = {}
+    if giglist:
+        for artist in fav_artists:
+            # find all related artists
+            related_artists = relatedArtists.get_related_artists(artist)[0:40]
+
+            if related_artists:
+                response[artist] = []
+                for possible_match in related_artists:
+                    for gig in giglist:
+                        if possible_match in gig['artist']:
+                            recommendation = {
+                                "Artist": gig['artist'],
+                                "Venue": gig['venue'],
+                                "Date": gig['date'],
+                                "Status": 'still on' if gig['status'] == '' else gig['status']
+                            }
+                            response[artist].append(recommendation)
+    return jsonify(response)
 
 
 if __name__ == '__main__':

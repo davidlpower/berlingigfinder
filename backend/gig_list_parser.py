@@ -13,10 +13,10 @@ class GigListParser():
             gig_tds = gig_tr.select('td')
             try:
                 gigs.append({
-                    'date': gig_tds[0].get_text(),
-                    'status': gig_tds[1].get_text(),
-                    'artist': gig_tds[2].get_text(),
-                    'venue': gig_tds[3].get_text(),
+                    'date': gig_tds[0].get_text().strip(),
+                    'status': gig_tds[1].get_text().strip(),
+                    'artist': gig_tds[2].get_text().strip(),
+                    'venue': gig_tds[3].get_text().replace('\n','')
                 })
             except IndexError:
                 break
