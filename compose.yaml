@@ -16,7 +16,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql
     networks:
-      - backnet
+      - private
     environment:
       - MYSQL_DATABASE=berlingigs
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
@@ -34,9 +34,8 @@ services:
     ports:
       - 8000:8000
     networks:
-      - backnet
-      - proxynet
-      - frontnet
+      - private
+      - public
     depends_on:
       db:
         condition: service_healthy
@@ -49,8 +48,8 @@ services:
     depends_on: 
       - backend
     networks:
-      - proxynet
-      - frontnet
+      - public
+
 
   frontend:
     build:
@@ -63,9 +62,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - backnet
-      - proxynet
-      - frontnet
+      - public
+    depends_on:
+      - backend
 
 volumes:
   db-data:
@@ -75,6 +74,5 @@ secrets:
     file: db/password.txt
 
 networks:
-  backnet:
-  proxynet:
-  frontnet:
+  public:
+  private:

@@ -1,7 +1,14 @@
 import React from 'react';
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLoaderData } from "react-router-dom";
+import { getGigs } from '../gigs'
+
+export async function loader() {
+    const gigs = await getGigs();
+    return { gigs };
+}
 
 export default function Root() {
+    const { gigs } = useLoaderData();
     return (
         <>
             <div id="sidebar">
@@ -30,14 +37,28 @@ export default function Root() {
                     </form>
                 </div>
                 <nav>
-                    <ul>
-                        <li>
-                            <Link to={`gigs/1`}>Mason Hill is playing in Cassiopeia</Link>
-                        </li>
-                        <li>
-                            <Link to={`gigs/2`}>Son Lux is playing in Festsaal Kreuzberg</Link>
-                        </li>
-                    </ul>
+                    { gigs && gigs.length ? (
+                        <ul>
+                            {gigs.map((gig) => (
+                                <li key={gig.id}>
+                                    <Link to={`gigs/${gig.id}`}>
+                                        {gig.first || gig.last ? (
+                                            <>
+                                                {gig.first} {gig.last}
+                                            </>
+                                        ) : (
+                                            <i>No Name</i>
+                                        )}{" "}
+                                        {gig.favorite && <span>★</span>}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>
+                            <i>No Gigs</i>
+                        </p>
+                    )}
                 </nav>
             </div>
             <div id="detail">
