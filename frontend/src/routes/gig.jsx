@@ -3,55 +3,51 @@ import { Form } from "react-router-dom";
 
 export default function Gig() {
     const gig = {
-        first: "Your",
-        last: "Name",
-        avatar: "https://placekitten.com/g/200/200",
-        notes: "Some notes",
-        favorite: true,
+        artist: "Son Lux",
+        venue: "Festsaal Kreuzberg",
+        avatar: "/son_lux.jpeg",
+        date: "03.06.2022",
+        status: "Still on",
     };
+
+    const favorite = true;
 
     return (
         <div id="gig">
             <div>
-                <img
+                <img class="artist-photo"
                     key={gig.avatar}
                     src={gig.avatar || null}
                 />
             </div>
-
             <div>
                 <h1>
-                    {gig.first || gig.last ? (
+                    {gig.artist ? (
                         <>
-                            {gig.first} {gig.last}
+                            {gig.artist}
                         </>
                     ) : (
                         <i>No Name</i>
                     )}{" "}
                     <Favorite gig={gig} />
                 </h1>
-
-                {gig.notes && <p>{gig.notes}</p>}
-
                 <div>
-                    <Form action="edit">
-                        <button type="submit">Edit</button>
-                    </Form>
-                    <Form
-                        method="post"
-                        action="destroy"
-                        onSubmit={(event) => {
-                            if (
-                                !window.confirm(
-                                    "Please confirm you want to delete this record."
-                                )
-                            ) {
-                                event.preventDefault();
-                            }
-                        }}
-                    >
-                        <button type="submit">Delete</button>
-                    </Form>
+                    {gig.venue ? (
+                        <>
+                            <b>Venue:</b> {gig.venue}
+                        </>
+                    ) : (
+                        <i>No Venue Set</i>
+                    )}
+                </div>
+                <div>
+                    {gig.date ? (
+                        <>
+                            <b>Date:</b> {gig.date}
+                        </>
+                    ) : (
+                        <i>No Date Set</i>
+                    )}
                 </div>
             </div>
         </div>

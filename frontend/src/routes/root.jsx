@@ -1,14 +1,15 @@
 import React from 'react';
 import { Outlet, Link, useLoaderData } from "react-router-dom";
-import { getGigs } from '../gigs'
+import { getAllArtists, init } from '../gigs'
 
 export async function loader() {
-    const gigs = await getGigs();
-    return { gigs };
+    init();
+    const artists = await getAllArtists();
+    return { artists };
 }
 
 export default function Root() {
-    const { gigs } = useLoaderData();
+    const { artists } = useLoaderData();
     return (
         <>
             <div id="sidebar">
@@ -33,26 +34,21 @@ export default function Root() {
                         ></div>
                     </form>
                     <form method="post">
-                        <button type="submit">New</button>
+                        <button type="submit">Search</button>
                     </form>
                 </div>
                 <nav>
-                    { gigs && gigs.length ? (
+                    {Object.keys(artists).length ? (
                         <ul>
-                            {gigs.map((gig) => (
-                                <li key={gig.id}>
-                                    <Link to={`gigs/${gig.id}`}>
-                                        {gig.first || gig.last ? (
-                                            <>
-                                                {gig.first} {gig.last}
-                                            </>
-                                        ) : (
-                                            <i>No Name</i>
-                                        )}{" "}
-                                        {gig.favorite && <span>★</span>}
+                            {artists.map(artist =>
+                                <li key={artist}>
+                                    <Link to={`gigs/${artist}`}>
+                                        <>
+                                            {artist}
+                                        </>
                                     </Link>
                                 </li>
-                            ))}
+                            )}
                         </ul>
                     ) : (
                         <p>

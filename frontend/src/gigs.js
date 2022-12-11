@@ -1,30 +1,35 @@
+import localforage from "localforage";
 import axios from 'axios';
 
-export async function getGigs() {
-    let gigs = await axios.get('/artists')
+const artistList = 'artistList';
+
+export async function init() {
+    let response = await axios.get('/artists')
         .then(function (response) {
             // handle success
-            console.log(response);
+            Object.keys(response.data).forEach((key) => (
+                set(key, response.data[key])
+            ));
+            set(artistList, Object.keys(response.data));
+            return response.data;
         })
         .catch(function (error) {
             // handle error
-            console.log(error);
+            console.log(error.data.error);
         });
 
-    return gigs
+    return response
 }
 
-// export async function createGig() {
-//     let gig = { createdAt: Date.now() };
-//     return gig;
-// }
+export async function getGigsforArtist(id) {
+    let gigs = await localforage.getItem(id);
+    return gigs ?? null;
+}
 
-// export async function getGig(id) {
-//     await fakeNetwork(`gig:${id}`);
-//     let gigs = await localforage.getItem("gigs");
-//     let gig = gigs.find(gig => gig.id === id);
-//     return gig ?? null;
-// }
+export async function getAllArtists() {
+    let artists = await localforage.getItem(artistList);
+    return artists ?? null;
+}
 
 // export async function updateGig(id, updates) {
 //     await fakeNetwork();
@@ -47,6 +52,6 @@ export async function getGigs() {
 //     return false;
 // }
 
-// function set(gigs) {
-//     return localforage.setItem("gigs", gigs);
-// }
+function set(artist, gigs) {
+    return localforage.setItem(artist, gigs);
+}
