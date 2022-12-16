@@ -15,16 +15,16 @@ export default function Root() {
             <div id="sidebar">
                 <h1>Berlin Gig Finder</h1>
                 <div>
-                    <form id="search-form" role="search">
+                    <form id="add-form" role="add">
                         <input
                             id="q"
-                            aria-label="Search contacts"
-                            placeholder="Search"
-                            type="search"
+                            aria-label="Add Artist"
+                            placeholder="Add Artist"
+                            type="text"
                             name="q"
                         />
                         <div
-                            id="search-spinner"
+                            id="add-spinner"
                             aria-hidden
                             hidden={true}
                         />
@@ -34,7 +34,7 @@ export default function Root() {
                         ></div>
                     </form>
                     <form method="post">
-                        <button type="submit">Search</button>
+                        <button type="submit">Add</button>
                     </form>
                 </div>
                 <nav>
