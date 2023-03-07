@@ -11,7 +11,6 @@ class RelatedArtists():
         artists = []
         
         for link in soup.find_all("a", class_="S"):
-            print(link.get_text())
             artists.append(link.get_text())
         
         return artists

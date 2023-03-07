@@ -4,7 +4,7 @@ import requests as req
 
 class GigListParser():
     def get_gig_list(self):
-        gig_list_url = "http://mytrueintent.blogspot.com"
+        gig_list_url = "https://mytrueintent.blogspot.com"
         resp = req.request(method='GET', url=gig_list_url)
         soup = BeautifulSoup(resp.text, 'html.parser')
         gigs = []
